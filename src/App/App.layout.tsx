@@ -18,21 +18,32 @@ interface AppLayoutProps {
 }
 
 const AppLayout: React.FC<{} & AppLayoutProps> = (props) => {
-	const { children, className, withoutHeader, withoutFooter, withoutToasts, metaTitle, metaDescription, route } = props;
+	const {
+		children,
+		className,
+		withoutHeader,
+		withoutFooter,
+		withoutToasts,
+		metaTitle,
+		metaDescription,
+		route,
+	} = props;
 
 	return (
 		<>
 			<Helmet>
-				<title>{metaTitle ? `${metaTitle} | ${cfg.meta.title}` : cfg.meta.title}</title>
-				{metaDescription &&(<meta name="description" content={metaDescription} />)}
+				<title>
+					{metaTitle ? `${metaTitle} | ${cfg.meta.title}` : cfg.meta.title}
+				</title>
+				{metaDescription && (
+					<meta name="description" content={metaDescription} />
+				)}
 			</Helmet>
 			<div className={['View', className].join(' ')}>
-				{!withoutHeader &&(<Header />)}
-				<main className="Main">
-					{children}
-				</main>
-				{!withoutFooter &&(<Footer />)}
-				{!withoutToasts &&(<Toasts />)}
+				{!withoutHeader && <Header />}
+				<main className="Main">{children}</main>
+				{!withoutFooter && <Footer />}
+				{!withoutToasts && <Toasts />}
 			</div>
 		</>
 	);

@@ -17,7 +17,10 @@ class PageChat extends Component<{}> {
 				{(context) => (
 					<Translation>
 						{(t) => (
-							<AppLayout route={routes.chat}>
+							<AppLayout
+								metaTitle={t('page:chat.meta.title')}
+								route={routes.chat}
+							>
 								<Section>
 									<h1 className="title title--page">{t('page:chat.title')}</h1>
 								</Section>

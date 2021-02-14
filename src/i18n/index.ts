@@ -12,7 +12,7 @@ const resources = {
 		common: en_common,
 		page: en_page,
 		messages: en_messages,
-	}
+	},
 };
 
 i18n.use(initReactI18next).init({
