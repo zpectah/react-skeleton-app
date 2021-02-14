@@ -10,7 +10,7 @@ import AppLayout from '../../App/App.layout';
 import Section from '../../ui/Section';
 import Chat from '../../components/Chat';
 
-class PageChat extends Component<{}> {
+class PageChat extends Component<{ chatMessages }> {
 	render() {
 		return (
 			<AppContext.Consumer>
@@ -25,7 +25,7 @@ class PageChat extends Component<{}> {
 									<h1 className="title title--page">{t('page:chat.title')}</h1>
 								</Section>
 								<Section>
-									<Chat />
+									<Chat messages={this.props.chatMessages} />
 								</Section>
 							</AppLayout>
 						)}
@@ -38,7 +38,7 @@ class PageChat extends Component<{}> {
 
 function mapStateToProps(state) {
 	return {
-		items: state.items,
+		chatMessages: state.chatMessages,
 	};
 }
 

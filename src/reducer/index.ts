@@ -9,19 +9,20 @@ export interface DefaultStoreProps {
 	toasts: Array<any>;
 	language: string;
 	navbarOpen: true | false;
+	chatMessages: Array<any>;
 }
 export const defaultStoreState: DefaultStoreProps = {
 	items: [],
 	toasts: [],
 	language: LanguageService.get(),
 	navbarOpen: false,
+	chatMessages: [],
 };
 
 function defaultReducer(state = defaultStoreState, action) {
 	// console.log(action.type, action.payload);
 
 	switch (action.type) {
-
 		case DEFAULT.LANGUAGE_TOGGLE:
 			LanguageService.set(action.payload);
 			return Object.assign({}, state, {
@@ -47,6 +48,10 @@ function defaultReducer(state = defaultStoreState, action) {
 				navbarOpen: action.payload,
 			});
 
+		case DEFAULT.ADD_CHAT_MESSAGE:
+			return Object.assign({}, state, {
+				chatMessages: state.chatMessages.concat(action.payload),
+			});
 	}
 
 	return state;

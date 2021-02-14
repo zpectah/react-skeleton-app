@@ -14,7 +14,7 @@ interface AppLayoutProps {
 	withoutToasts?: true | false;
 	metaTitle?: string;
 	metaDescription?: string;
-	route: object;
+	route: { name: string };
 }
 
 const AppLayout: React.FC<{} & AppLayoutProps> = (props) => {
@@ -39,7 +39,7 @@ const AppLayout: React.FC<{} & AppLayoutProps> = (props) => {
 					<meta name="description" content={metaDescription} />
 				)}
 			</Helmet>
-			<div className={['View', className].join(' ')}>
+			<div className={['View', 'View--' + route.name, className].join(' ')}>
 				{!withoutHeader && <Header />}
 				<main className="Main">{children}</main>
 				{!withoutFooter && <Footer />}
