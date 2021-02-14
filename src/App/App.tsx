@@ -4,13 +4,11 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import * as routes from './routes.json';
 import * as AppContext from './App.context';
 
-// import DemoComponent from '../components/DemoComponent';
-// import DemoUi from '../ui/DemoUi';
-
 import PageDashboard from '../view/page/Page.Dashboard';
 import PageError from '../view/page/Page.Error';
 import PageList from '../view/page/Page.List';
 import PageForm from '../view/page/Page.Form';
+import PageChat from '../view/page/Page.Chat';
 
 class App extends Component {
 	render() {
@@ -20,6 +18,7 @@ class App extends Component {
 					<Switch>
 						<Route path={routes.form.path} component={PageForm} />
 						<Route path={routes.list.path} component={PageList} />
+						<Route path={routes.chat.path} component={PageChat} />
 						<Route
 							path={routes.dashboard.path}
 							component={PageDashboard}

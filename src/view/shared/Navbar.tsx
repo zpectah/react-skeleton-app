@@ -24,6 +24,10 @@ const Navbar: React.FC<{} & NavbarProps> = (props) => {
 			path: routes.form.path,
 			label: t('page:form.nav'),
 		},
+		{
+			path: routes.chat.path,
+			label: t('page:chat.nav'),
+		},
 	];
 
 	return (

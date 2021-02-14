@@ -16,5 +16,10 @@
 	"form.nav": "Form",
 	"form.meta.title": "Form",
 	"form.title": "Demo form",
-	"form.content": "Form for demonstration"
+	"form.content": "Form for demonstration",
+
+	"chat.nav": "Chat",
+	"chat.meta.title": "Chat",
+	"chat.title": "Demo Chat",
+	"chat.content": "Chat for demonstration"
 }

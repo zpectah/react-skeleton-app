@@ -17,5 +17,10 @@
 		"name": "form",
 		"path": "/form",
 		"auth": 1
+	},
+	"chat": {
+		"name": "chat",
+		"path": "/chat",
+		"auth": 1
 	}
 }
