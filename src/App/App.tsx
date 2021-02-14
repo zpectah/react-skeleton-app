@@ -18,13 +18,15 @@ class App extends Component {
 			<AppContext.Provider>
 				<Router>
 					<Switch>
-
 						<Route path={routes.form.path} component={PageForm} />
 						<Route path={routes.list.path} component={PageList} />
-						<Route path={routes.dashboard.path} component={PageDashboard} exact />
+						<Route
+							path={routes.dashboard.path}
+							component={PageDashboard}
+							exact
+						/>
 
 						<Route component={PageError} />
-
 					</Switch>
 				</Router>
 			</AppContext.Provider>
