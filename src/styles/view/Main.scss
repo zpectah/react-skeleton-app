@@ -1,0 +1,8 @@
+.Main{
+	flex: 1;
+
+	.is-centered & {
+		flex: none;
+	}
+
+}

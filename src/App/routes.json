@@ -1,0 +1,21 @@
+{
+	"error": {
+		"name": "error",
+		"auth": 0
+	},
+	"dashboard": {
+		"name": "dashboard",
+		"path": "/",
+		"auth": 1
+	},
+	"list": {
+		"name": "list",
+		"path": "/list",
+		"auth": 1
+	},
+	"form": {
+		"name": "form",
+		"path": "/form",
+		"auth": 1
+	}
+}

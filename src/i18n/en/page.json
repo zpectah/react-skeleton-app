@@ -1,0 +1,20 @@
+{
+	"error.meta.title": "Error",
+	"error.title": "Error 404",
+	"error.content": "Sorry, but page does not exist",
+
+	"dashboard.nav": "Dashboard",
+	"dashboard.meta.title": "Dashboard",
+	"dashboard.title": "Welcome to Dashboard",
+	"dashboard.content": "...",
+
+	"list.nav": "List",
+	"list.meta.title": "List",
+	"list.title": "Demo list of items",
+	"list.content": "List for demonstration",
+
+	"form.nav": "Form",
+	"form.meta.title": "Form",
+	"form.title": "Demo form",
+	"form.content": "Form for demonstration"
+}
