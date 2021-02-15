@@ -1,19 +1,21 @@
-const express = require('express');
-const app = express();
-const server = require('http').Server(app);
-const io = require('socket.io')(server);
+const app = require('express')();
+const http = require('http').createServer(app);
+const PORT = 5000;
+const io = require('socket.io')(http);
+
+http.listen(PORT, () => {
+	console.log(`listening on *:${PORT}`);
+});
 
 io.on('connection', (socket) => {
+	/* socket object may be used to send specific messages to the new connected client */
 	const { id } = socket.client;
-	console.log(`User connected: ${id}`);
-	socket.on('chat message', (msg) => {
+
+	socket.on('chat message', (props) => {
 		io.emit('chat message', {
 			id: id,
-			nickname: msg.nickname,
-			message: msg.message,
+			nickname: props.nickname,
+			message: props.message,
 		});
 	});
 });
-
-const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => console.log(`Listen on *: ${PORT}`));

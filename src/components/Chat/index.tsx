@@ -9,15 +9,20 @@ interface ChatProps {
 	messages: Array<any>;
 }
 
-// create Hook as useSocket !!!
-const socket = io('http://localhost:5000', { transports: ['websocket'] });
-
 const Chat: React.FC<{} & ChatProps> = (props) => {
+	const socket = io('http://localhost:5000', { transports: ['websocket'] });
 	const { className, messages } = props;
 	const [nickname, setNickname] = useState('');
 	const [message, setMessage] = useState('');
 
-	socket.on('chat message', (msg) => store.dispatch(addChatMessage(msg)));
+	useEffect(() => {
+		if (socket)
+			socket.on('chat message', (msg) => store.dispatch(addChatMessage(msg)));
+
+		return () => {
+			socket.off('chat message');
+		};
+	}, []);
 
 	return (
 		<div className={['Chat', className].join(' ')}>
