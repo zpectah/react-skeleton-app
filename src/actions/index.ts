@@ -19,3 +19,11 @@ export function navbarToggle(payload) {
 export const addChatMessage = (payload) => {
 	return { type: DEFAULT.ADD_CHAT_MESSAGE, payload };
 };
+
+export const addChatUSer = (payload) => {
+	return { type: DEFAULT.ADD_CHAT_USER, payload };
+};
+
+export const removeChatUSer = (payload) => {
+	return { type: DEFAULT.REMOVE_CHAT_USER, payload };
+};

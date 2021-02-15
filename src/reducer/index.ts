@@ -10,6 +10,7 @@ export interface DefaultStoreProps {
 	language: string;
 	navbarOpen: true | false;
 	chatMessages: Array<any>;
+	chatUsers: Array<any>;
 }
 export const defaultStoreState: DefaultStoreProps = {
 	items: [],
@@ -17,6 +18,7 @@ export const defaultStoreState: DefaultStoreProps = {
 	language: LanguageService.get(),
 	navbarOpen: false,
 	chatMessages: [],
+	chatUsers: [],
 };
 
 function defaultReducer(state = defaultStoreState, action) {
@@ -51,6 +53,19 @@ function defaultReducer(state = defaultStoreState, action) {
 		case DEFAULT.ADD_CHAT_MESSAGE:
 			return Object.assign({}, state, {
 				chatMessages: state.chatMessages.concat(action.payload),
+			});
+
+		case DEFAULT.ADD_CHAT_USER:
+			return Object.assign({}, state, {
+				chatUsers: state.chatUsers.concat(action.payload),
+			});
+
+		case DEFAULT.REMOVE_CHAT_USER:
+			return Object.assign({}, state, {
+				chatUsers: [
+					...state.chatUsers.slice(0, action.payload),
+					...state.chatUsers.slice(action.payload + 1),
+				],
 			});
 	}
 
