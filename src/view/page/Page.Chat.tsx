@@ -10,7 +10,12 @@ import AppLayout from '../../App/App.layout';
 import Section from '../../ui/Section';
 import Chat from '../../components/Chat';
 
-class PageChat extends Component<{ chatMessages; chatUsers }> {
+class PageChat extends Component<{
+	chatMessages;
+	chatUsers;
+	chatRooms;
+	match;
+}> {
 	render() {
 		return (
 			<AppContext.Consumer>
@@ -25,9 +30,12 @@ class PageChat extends Component<{ chatMessages; chatUsers }> {
 									<h1 className="title title--page">{t('page:chat.title')}</h1>
 								</Section>
 								<Section>
+									{console.log(this.props.match.params?.room)}
 									<Chat
 										messages={this.props.chatMessages}
 										chatUsers={this.props.chatUsers}
+										rooms={this.props.chatRooms}
+										roomId={this.props.match.params?.room}
 									/>
 								</Section>
 							</AppLayout>
@@ -45,6 +53,7 @@ function mapStateToProps(state) {
 	return {
 		chatMessages: state.chatMessages,
 		chatUsers: state.chatUsers,
+		chatRooms: state.chatRooms,
 	};
 }
 

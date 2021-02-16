@@ -18,7 +18,11 @@ class App extends Component {
 					<Switch>
 						<Route path={routes.form.path} component={PageForm} />
 						<Route path={routes.list.path} component={PageList} />
-						<Route path={routes.chat.path} component={PageChat} />
+						<Route
+							path={[routes.chat.path, routes.chat.pathRoom + '/:room']}
+							component={PageChat}
+							exact
+						/>
 						<Route
 							path={routes.dashboard.path}
 							component={PageDashboard}

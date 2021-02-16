@@ -9,16 +9,25 @@ export interface DefaultStoreProps {
 	toasts: Array<any>;
 	language: string;
 	navbarOpen: true | false;
+	//
 	chatMessages: Array<any>;
 	chatUsers: Array<any>;
+	chatRooms: Array<any>;
 }
 export const defaultStoreState: DefaultStoreProps = {
 	items: [],
 	toasts: [],
 	language: LanguageService.get(),
 	navbarOpen: false,
+	//
 	chatMessages: [],
 	chatUsers: [],
+	chatRooms: [
+		{
+			id: 1,
+			name: 'chatRoom1',
+		},
+	],
 };
 
 function defaultReducer(state = defaultStoreState, action) {

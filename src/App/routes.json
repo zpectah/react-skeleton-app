@@ -21,6 +21,7 @@
 	"chat": {
 		"name": "chat",
 		"path": "/chat",
+		"pathRoom": "/chat/room",
 		"auth": 1
 	}
 }
