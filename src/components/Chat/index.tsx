@@ -19,7 +19,7 @@ const Chat: React.FC<{} & ChatProps> = (props) => {
 
 	useEffect(() => {
 		socket.on('chat message', (msg) => store.dispatch(addChatMessage(msg)));
-		socket.on('user register', (attr) => store.dispatch(addChatUSer(attr)));
+		socket.on('user register', (attr) => store.dispatch(addChatUser(attr)));
 
 		return () => {
 			socket.off('chat message');
