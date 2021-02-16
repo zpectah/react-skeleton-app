@@ -5,7 +5,12 @@ interface ChatClientProps {
 	onMessageSubmit: Function;
 	onRegister: Function;
 	onTyping: Function;
+	onLeave: Function;
 }
+
+const tmp = {
+	nickname: '',
+};
 
 const ChatClient: React.FC<{} & ChatClientProps> = (props) => {
 	const [clientState, setClientState] = useState<any>({
@@ -14,7 +19,11 @@ const ChatClient: React.FC<{} & ChatClientProps> = (props) => {
 	});
 	const [registered, setRegistered] = useState<true | false>(false);
 	const [message, setMessage] = useState<string>('');
-	const { className, onMessageSubmit, onRegister, onTyping } = props;
+	const { className, onMessageSubmit, onRegister, onTyping, onLeave } = props;
+
+	useEffect(() => {
+		return () => onLeave(tmp);
+	}, []);
 
 	return (
 		<div className={['ChatClient', className].join(' ')}>
@@ -26,6 +35,7 @@ const ChatClient: React.FC<{} & ChatClientProps> = (props) => {
 					value={clientState.nickname}
 					onChange={(e) => {
 						setClientState({ ...clientState, nickname: e.target.value });
+						tmp.nickname = e.target.value;
 					}}
 					placeholder="Your nickname"
 				/>

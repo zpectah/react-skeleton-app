@@ -41,11 +41,12 @@ const ChatRoom: React.FC<{} & ChatRoomProps> = (props) => {
 				onRegister={(attr) => onRegister(attr)}
 				onMessageSubmit={(attr) => onMessageSubmit(attr)}
 				onTyping={(attr) => onTyping(attr)}
+				onLeave={(attr) => onLeave(attr)}
 			/>
 			<hr />
 			<div>
 				{messages.map((msg, index) => {
-					if (msg.roomId == roomId)
+					if (msg.room == roomId)
 						return (
 							<div key={index}>
 								{msg.nickname}: {msg.message}

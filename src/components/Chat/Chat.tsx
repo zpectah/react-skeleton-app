@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 
 import store from '../../store';
@@ -16,6 +16,7 @@ interface ChatProps {
 
 const Chat: React.FC<{} & ChatProps> = (props) => {
 	const socket = io('http://localhost:5000', { transports: ['websocket'] });
+	const [typing, setTyping] = useState<true | false>(false);
 	const { className, messages, chatUsers, rooms, roomId } = props;
 
 	// useEffect(() => {
@@ -39,14 +40,24 @@ const Chat: React.FC<{} & ChatProps> = (props) => {
 	}, []);
 
 	useEffect(() => {
-		socket.on('receive code', (payload) => {
-			console.log('receive code', payload);
+		socket.on('receive code', (attr) => {
+			// console.log('receive code', attr);
+			if (attr) {
+				setTyping(true);
+			} else {
+				setTyping(false);
+			}
 		});
-	}, []);
+		socket.on('user left', (attr) => {
+			console.log('user left', '....reload users from store !!!');
+		});
+	}, [socket]);
 
 	return (
 		<div className={['Chat', className].join(' ')}>
 			<ChatRoomList rooms={rooms} />
+
+			<div>Someone typing: {typing ? 'true' : 'false'}</div>
 
 			{rooms.map((room, index) => {
 				if (roomId == room.id)
@@ -59,20 +70,19 @@ const Chat: React.FC<{} & ChatProps> = (props) => {
 							roomId={roomId}
 							onRegister={(attr) => {
 								console.log('onRegister', attr);
-								socket.emit('register user', { ...attr, roomId: roomId });
+								socket.emit('register user', { ...attr, room: roomId });
 							}}
 							onMessageSubmit={(attr) => {
 								console.log('onMessageSubmit', attr);
-								socket.emit('chat message', { ...attr, roomId: roomId });
+								socket.emit('chat message', { ...attr, room: roomId });
 							}}
 							onConnect={(id) => {
 								socket.emit('enter room', { room: id });
 							}}
-							onLeave={(id) => {
-								console.log('onLeave', id);
-								socket.emit('leave room', {
-									room: id,
-								});
+							onLeave={(attr) => {
+								console.log('onLeave', attr);
+								socket.emit('leave room', { room: roomId });
+								store.dispatch(removeChatUser(attr.nickname));
 							}}
 							onTyping={(attr) => {
 								console.log('onTyping', attr);
