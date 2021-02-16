@@ -16,26 +16,14 @@ interface ChatProps {
 
 const Chat: React.FC<{} & ChatProps> = (props) => {
 	const socket = io('http://localhost:5000', { transports: ['websocket'] });
-	const [typing, setTyping] = useState<true | false>(false);
 	const { className, messages, chatUsers, rooms, roomId } = props;
-
-	// useEffect(() => {
-	// 	socket.on('chat message', (msg) => store.dispatch(addChatMessage(msg)));
-	// 	socket.on('user register', (attr) => store.dispatch(addChatUser(attr)));
-	//
-	// 	return () => {
-	// 		socket.off('chat message');
-	// 		socket.off('user register');
-	// 	};
-	// }, []);
 
 	useEffect(() => {
 		socket.on('user register', (attr) => store.dispatch(addChatUser(attr)));
 		socket.on('chat message', (msg) => store.dispatch(addChatMessage(msg)));
-		socket.on('user left', (attr) => {
-			console.log('user left', '....reload users from store !!!', attr);
-			store.dispatch(removeChatUser(attr.nickname));
-		});
+		socket.on('user left', (nickname) =>
+			store.dispatch(removeChatUser(nickname)),
+		);
 
 		return () => {
 			socket.off('user register');
@@ -44,22 +32,10 @@ const Chat: React.FC<{} & ChatProps> = (props) => {
 		};
 	}, []);
 
-	useEffect(() => {
-		socket.on('receive code', (attr) => {
-			// console.log('receive code', attr);
-			if (attr) {
-				setTyping(true);
-			} else {
-				setTyping(false);
-			}
-		});
-	}, [socket]);
-
 	return (
 		<div className={['Chat', className].join(' ')}>
+			<div>Total connected users: {chatUsers.length}</div>
 			<ChatRoomList rooms={rooms} />
-
-			<div>Someone typing: {typing ? 'true' : 'false'}</div>
 
 			{rooms.map((room, index) => {
 				if (roomId == room.id)
@@ -84,14 +60,6 @@ const Chat: React.FC<{} & ChatProps> = (props) => {
 							onLeave={(attr) => {
 								console.log('onLeave', attr);
 								socket.emit('leave room', { ...attr, room: roomId });
-								// store.dispatch(removeChatUser(attr.nickname));
-							}}
-							onTyping={(attr) => {
-								console.log('onTyping', attr);
-								socket.emit('coding event', {
-									room: roomId,
-									newCode: attr,
-								});
 							}}
 						/>
 					);

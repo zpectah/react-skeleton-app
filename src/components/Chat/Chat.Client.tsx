@@ -4,7 +4,6 @@ interface ChatClientProps {
 	className?: string | Array<string>;
 	onMessageSubmit: Function;
 	onRegister: Function;
-	onTyping: Function;
 	onLeave: Function;
 }
 
@@ -19,7 +18,7 @@ const ChatClient: React.FC<{} & ChatClientProps> = (props) => {
 	});
 	const [registered, setRegistered] = useState<true | false>(false);
 	const [message, setMessage] = useState<string>('');
-	const { className, onMessageSubmit, onRegister, onTyping, onLeave } = props;
+	const { className, onMessageSubmit, onRegister, onLeave } = props;
 
 	useEffect(() => {
 		return () => onLeave(tmp);
@@ -38,6 +37,8 @@ const ChatClient: React.FC<{} & ChatClientProps> = (props) => {
 						tmp.nickname = e.target.value;
 					}}
 					placeholder="Your nickname"
+					disabled={registered}
+					readOnly={registered}
 				/>
 				<button
 					type="button"
@@ -46,6 +47,7 @@ const ChatClient: React.FC<{} & ChatClientProps> = (props) => {
 						setRegistered(true);
 						onRegister(clientState);
 					}}
+					disabled={registered}
 				>
 					Register user
 				</button>
@@ -57,7 +59,6 @@ const ChatClient: React.FC<{} & ChatClientProps> = (props) => {
 						value={message}
 						onChange={(e) => {
 							setMessage(e.target.value);
-							onTyping(e.target.value);
 						}}
 						placeholder="Your message"
 					></textarea>

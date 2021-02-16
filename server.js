@@ -27,37 +27,22 @@ io.on('connection', (socket) => {
 
 	// console.log('a user connected');
 
-	socket.on('disconnect', () => {
-		console.log('user disconnected');
-	});
+	socket.on('disconnect', () => {});
 
 	socket.on('register user', (attr) => {
-		let no = { ...attr, id: id };
-		console.log('register user', no);
-		// socket.join(attr);
-		// console.log('socket', socket);
-		io.emit('user register', no);
+		io.emit('user register', { ...attr, id: id });
 	});
 
 	socket.on('enter room', function (data) {
-		console.log('enter room', data);
 		socket.join(data.room);
 	});
 
 	socket.on('leave room', (data) => {
-		console.log('leave room', data);
 		socket.leave(data.room);
-		// socket.to(data.room).emit('user left', {});
-		if (data.nickname) io.emit('user left', data);
-	});
-
-	socket.on('coding event', (data) => {
-		console.log('coding event', data);
-		socket.broadcast.to(data.room).emit('receive code', data);
+		if (data.nickname) io.emit('user left', data.nickname);
 	});
 
 	socket.on('chat message', (props) => {
-		console.log('chat message', props);
 		io.emit('chat message', props);
 	});
 
