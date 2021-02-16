@@ -32,10 +32,15 @@ const Chat: React.FC<{} & ChatProps> = (props) => {
 	useEffect(() => {
 		socket.on('user register', (attr) => store.dispatch(addChatUser(attr)));
 		socket.on('chat message', (msg) => store.dispatch(addChatMessage(msg)));
+		socket.on('user left', (attr) => {
+			console.log('user left', '....reload users from store !!!', attr);
+			store.dispatch(removeChatUser(attr.nickname));
+		});
 
 		return () => {
 			socket.off('user register');
 			socket.off('chat message');
+			socket.off('user left');
 		};
 	}, []);
 
@@ -47,9 +52,6 @@ const Chat: React.FC<{} & ChatProps> = (props) => {
 			} else {
 				setTyping(false);
 			}
-		});
-		socket.on('user left', (attr) => {
-			console.log('user left', '....reload users from store !!!');
 		});
 	}, [socket]);
 
@@ -81,8 +83,8 @@ const Chat: React.FC<{} & ChatProps> = (props) => {
 							}}
 							onLeave={(attr) => {
 								console.log('onLeave', attr);
-								socket.emit('leave room', { room: roomId });
-								store.dispatch(removeChatUser(attr.nickname));
+								socket.emit('leave room', { ...attr, room: roomId });
+								// store.dispatch(removeChatUser(attr.nickname));
 							}}
 							onTyping={(attr) => {
 								console.log('onTyping', attr);

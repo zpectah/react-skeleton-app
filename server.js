@@ -47,7 +47,8 @@ io.on('connection', (socket) => {
 	socket.on('leave room', (data) => {
 		console.log('leave room', data);
 		socket.leave(data.room);
-		socket.to(data.room).emit('user left', {});
+		// socket.to(data.room).emit('user left', {});
+		if (data.nickname) io.emit('user left', data);
 	});
 
 	socket.on('coding event', (data) => {
