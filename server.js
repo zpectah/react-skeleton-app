@@ -32,13 +32,15 @@ io.on('connection', (socket) => {
 	});
 
 	socket.on('register user', (attr) => {
-		console.log('register user', attr);
+		let no = { ...attr, id: id };
+		console.log('register user', no);
 		// socket.join(attr);
-		console.log('socket', socket);
+		// console.log('socket', socket);
+		io.emit('user register', no);
 	});
 
-	socket.on('room', function (data) {
-		console.log('room', data);
+	socket.on('enter room', function (data) {
+		console.log('enter room', data);
 		socket.join(data.room);
 	});
 
@@ -50,6 +52,11 @@ io.on('connection', (socket) => {
 	socket.on('coding event', (data) => {
 		console.log('coding event', data);
 		socket.broadcast.to(data.room).emit('receive code', data);
+	});
+
+	socket.on('chat message', (props) => {
+		console.log('chat message', props);
+		io.emit('chat message', props);
 	});
 
 	//

@@ -29,12 +29,12 @@ const Chat: React.FC<{} & ChatProps> = (props) => {
 	// }, []);
 
 	useEffect(() => {
-		// socket.emit('room', { room: roomId });
+		socket.on('user register', (attr) => store.dispatch(addChatUser(attr)));
+		socket.on('chat message', (msg) => store.dispatch(addChatMessage(msg)));
 
 		return () => {
-			// socket.emit('leave room', {
-			// 	room: roomId,
-			// });
+			socket.off('user register');
+			socket.off('chat message');
 		};
 	}, []);
 
@@ -63,9 +63,10 @@ const Chat: React.FC<{} & ChatProps> = (props) => {
 							}}
 							onMessageSubmit={(attr) => {
 								console.log('onMessageSubmit', attr);
+								socket.emit('chat message', { ...attr, roomId: roomId });
 							}}
 							onConnect={(id) => {
-								socket.emit('room', { room: id });
+								socket.emit('enter room', { room: id });
 							}}
 							onLeave={(id) => {
 								console.log('onLeave', id);

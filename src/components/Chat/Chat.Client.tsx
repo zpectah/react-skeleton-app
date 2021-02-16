@@ -59,6 +59,7 @@ const ChatClient: React.FC<{} & ChatClientProps> = (props) => {
 								nickname: clientState.nickname,
 								message: message,
 							});
+							setMessage('');
 						}}
 					>
 						Submit message
