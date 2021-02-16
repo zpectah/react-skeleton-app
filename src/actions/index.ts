@@ -20,10 +20,10 @@ export const addChatMessage = (payload) => {
 	return { type: DEFAULT.ADD_CHAT_MESSAGE, payload };
 };
 
-export const addChatUSer = (payload) => {
+export const addChatUser = (payload) => {
 	return { type: DEFAULT.ADD_CHAT_USER, payload };
 };
 
-export const removeChatUSer = (payload) => {
+export const removeChatUser = (payload) => {
 	return { type: DEFAULT.REMOVE_CHAT_USER, payload };
 };

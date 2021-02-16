@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
 
 import store from '../../store';
-import { addChatMessage, addChatUSer } from '../../actions';
+import { addChatMessage, addChatUser, removeChatUser } from '../../actions';
 
 interface ChatProps {
 	className?: string | Array<string>;
