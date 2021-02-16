@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import ChatClient from './Chat.Client';
 
@@ -27,19 +27,14 @@ const ChatRoom: React.FC<{} & ChatRoomProps> = (props) => {
 		onLeave,
 	} = props;
 
-	useEffect(() => {
-		onConnect(roomId);
-		return () => onLeave(roomId);
-	}, []);
+	useEffect(() => onConnect(roomId), []);
 
 	useEffect(() => {
 		if (chatUsers) {
 			let tmp = [];
-
 			chatUsers.map((user) => {
 				if (user.room == roomId) tmp.push(user);
 			});
-
 			setRoomUsers(tmp);
 		}
 	}, [chatUsers]);

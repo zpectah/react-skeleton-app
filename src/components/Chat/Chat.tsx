@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { io } from 'socket.io-client';
 
 import store from '../../store';
@@ -34,8 +34,7 @@ const Chat: React.FC<{} & ChatProps> = (props) => {
 
 	return (
 		<div className={['Chat', className].join(' ')}>
-			<div>Total connected users: {chatUsers.length}</div>
-			<ChatRoomList rooms={rooms} />
+			<ChatRoomList rooms={rooms} chatUsers={chatUsers} roomId={roomId} />
 
 			{rooms.map((room, index) => {
 				if (roomId == room.id)
@@ -46,21 +45,16 @@ const Chat: React.FC<{} & ChatProps> = (props) => {
 							chatUsers={chatUsers}
 							messages={messages}
 							roomId={roomId}
-							onRegister={(attr) => {
-								console.log('onRegister', attr);
-								socket.emit('register user', { ...attr, room: roomId });
-							}}
-							onMessageSubmit={(attr) => {
-								console.log('onMessageSubmit', attr);
-								socket.emit('chat message', { ...attr, room: roomId });
-							}}
-							onConnect={(id) => {
-								socket.emit('enter room', { room: id });
-							}}
-							onLeave={(attr) => {
-								console.log('onLeave', attr);
-								socket.emit('leave room', { ...attr, room: roomId });
-							}}
+							onRegister={(attr) =>
+								socket.emit('register user', { ...attr, room: roomId })
+							}
+							onMessageSubmit={(attr) =>
+								socket.emit('chat message', { ...attr, room: roomId })
+							}
+							onConnect={(id) => socket.emit('enter room', { room: id })}
+							onLeave={(attr) =>
+								socket.emit('leave room', { ...attr, room: roomId })
+							}
 						/>
 					);
 			})}

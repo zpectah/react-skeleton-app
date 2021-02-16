@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface ChatClientProps {
 	className?: string | Array<string>;
@@ -21,6 +21,7 @@ const ChatClient: React.FC<{} & ChatClientProps> = (props) => {
 	const { className, onMessageSubmit, onRegister, onLeave } = props;
 
 	useEffect(() => {
+		window.addEventListener('unload', onLeave(tmp)); // TODO: Need to test
 		return () => onLeave(tmp);
 	}, []);
 

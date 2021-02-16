@@ -27,10 +27,12 @@ class PageChat extends Component<{
 								route={routes.chat}
 							>
 								<Section>
-									<h1 className="title title--page">{t('page:chat.title')}</h1>
+									<h1 className="title title--page">
+										{t('page:chat.title')}{' '}
+										<small>({this.props.chatUsers.length} users)</small>
+									</h1>
 								</Section>
 								<Section>
-									{console.log(this.props.match.params?.room)}
 									<Chat
 										messages={this.props.chatMessages}
 										chatUsers={this.props.chatUsers}
@@ -48,8 +50,6 @@ class PageChat extends Component<{
 }
 
 function mapStateToProps(state) {
-	console.log(state);
-
 	return {
 		chatMessages: state.chatMessages,
 		chatUsers: state.chatUsers,

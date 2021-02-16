@@ -10,42 +10,21 @@ http.listen(PORT, () => {
 io.on('connection', (socket) => {
 	const { id } = socket.client;
 
-	// socket.on('chat message', (props) => {
-	// 	io.emit('chat message', {
-	// 		id: id,
-	// 		nickname: props.nickname,
-	// 		message: props.message,
-	// 	});
-	// });
-	//
-	// socket.on('user register', (props) => {
-	// 	io.emit('user register', {
-	// 		id: id,
-	// 		nickname: props.nickname,
-	// 	});
-	// });
-
+	// https://socket.io/docs/v3/emit-cheatsheet/index.html
 	// console.log('a user connected');
 
-	socket.on('disconnect', () => {});
+	socket.on('disconnect', () => socket.disconnect());
 
-	socket.on('register user', (attr) => {
-		io.emit('user register', { ...attr, id: id });
-	});
+	socket.on('register user', (attr) =>
+		io.emit('user register', { ...attr, id: id }),
+	);
 
-	socket.on('enter room', function (data) {
-		socket.join(data.room);
-	});
+	socket.on('enter room', (data) => socket.join(data.room));
 
 	socket.on('leave room', (data) => {
 		socket.leave(data.room);
 		if (data.nickname) io.emit('user left', data.nickname);
 	});
 
-	socket.on('chat message', (props) => {
-		io.emit('chat message', props);
-	});
-
-	//
-	//
+	socket.on('chat message', (props) => io.emit('chat message', props));
 });
