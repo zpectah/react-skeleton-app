@@ -10,7 +10,9 @@ interface ChatRoomProps {
 	roomId: number;
 	onRegister: Function;
 	onMessageSubmit: Function;
+	onConnect: Function;
 	onLeave: Function;
+	onTyping: Function;
 }
 
 const ChatRoom: React.FC<{} & ChatRoomProps> = (props) => {
@@ -21,11 +23,14 @@ const ChatRoom: React.FC<{} & ChatRoomProps> = (props) => {
 		onRegister,
 		chatUsers,
 		messages,
+		onConnect,
 		onLeave,
+		onTyping,
 	} = props;
 
 	useEffect(() => {
-		return () => onLeave({ roomId: roomId });
+		onConnect(roomId);
+		return () => onLeave(roomId);
 	}, []);
 
 	return (
@@ -35,6 +40,7 @@ const ChatRoom: React.FC<{} & ChatRoomProps> = (props) => {
 			<ChatClient
 				onRegister={(attr) => onRegister(attr)}
 				onMessageSubmit={(attr) => onMessageSubmit(attr)}
+				onTyping={(attr) => onTyping(attr)}
 			/>
 			<hr />
 			<div>

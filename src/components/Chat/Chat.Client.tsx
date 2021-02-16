@@ -4,6 +4,7 @@ interface ChatClientProps {
 	className?: string | Array<string>;
 	onMessageSubmit: Function;
 	onRegister: Function;
+	onTyping: Function;
 }
 
 const ChatClient: React.FC<{} & ChatClientProps> = (props) => {
@@ -13,7 +14,7 @@ const ChatClient: React.FC<{} & ChatClientProps> = (props) => {
 	});
 	const [registered, setRegistered] = useState<true | false>(false);
 	const [message, setMessage] = useState<string>('');
-	const { className, onMessageSubmit, onRegister } = props;
+	const { className, onMessageSubmit, onRegister, onTyping } = props;
 
 	return (
 		<div className={['ChatClient', className].join(' ')}>
@@ -32,7 +33,7 @@ const ChatClient: React.FC<{} & ChatClientProps> = (props) => {
 					type="button"
 					onClick={(e) => {
 						e.preventDefault();
-						setRegistered(false);
+						setRegistered(true);
 						onRegister(clientState);
 					}}
 				>
@@ -40,27 +41,30 @@ const ChatClient: React.FC<{} & ChatClientProps> = (props) => {
 				</button>
 			</div>
 			<br />
-			<div>
-				<textarea
-					value={message}
-					onChange={(e) => {
-						setMessage(e.target.value);
-					}}
-					placeholder="Your message"
-				></textarea>
-				<button
-					type="button"
-					onClick={(e) => {
-						e.preventDefault();
-						onMessageSubmit({
-							nickname: '',
-							message: message,
-						});
-					}}
-				>
-					Submit message
-				</button>
-			</div>
+			{registered && (
+				<div>
+					<textarea
+						value={message}
+						onChange={(e) => {
+							setMessage(e.target.value);
+							onTyping(e.target.value);
+						}}
+						placeholder="Your message"
+					></textarea>
+					<button
+						type="button"
+						onClick={(e) => {
+							e.preventDefault();
+							onMessageSubmit({
+								nickname: clientState.nickname,
+								message: message,
+							});
+						}}
+					>
+						Submit message
+					</button>
+				</div>
+			)}
 		</div>
 	);
 };

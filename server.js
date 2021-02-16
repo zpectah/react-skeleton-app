@@ -8,34 +8,50 @@ http.listen(PORT, () => {
 });
 
 io.on('connection', (socket) => {
-	/* socket object may be used to send specific messages to the new connected client */
 	const { id } = socket.client;
 
-	// const users = [];
-	// for (let [id, socket] of io.of('/chat').sockets) {
-	// 	users.push({
-	// 		userID: id,
-	// 		username: socket.username,
+	// socket.on('chat message', (props) => {
+	// 	io.emit('chat message', {
+	// 		id: id,
+	// 		nickname: props.nickname,
+	// 		message: props.message,
 	// 	});
-	// }
-
-	// console.log('User connected: ', id);
-	// socket.on('disconnect', () => {
-	// 	console.log('User disconnected: ', id);
+	// });
+	//
+	// socket.on('user register', (props) => {
+	// 	io.emit('user register', {
+	// 		id: id,
+	// 		nickname: props.nickname,
+	// 	});
 	// });
 
-	socket.on('chat message', (props) => {
-		io.emit('chat message', {
-			id: id,
-			nickname: props.nickname,
-			message: props.message,
-		});
+	// console.log('a user connected');
+
+	socket.on('disconnect', () => {
+		console.log('user disconnected');
 	});
 
-	socket.on('user register', (props) => {
-		io.emit('user register', {
-			id: id,
-			nickname: props.nickname,
-		});
+	socket.on('register user', (attr) => {
+		console.log('register user', attr);
+		// socket.join(attr);
+		console.log('socket', socket);
 	});
+
+	socket.on('room', function (data) {
+		console.log('room', data);
+		socket.join(data.room);
+	});
+
+	socket.on('leave room', (data) => {
+		console.log('leave room', data);
+		socket.leave(data.room);
+	});
+
+	socket.on('coding event', (data) => {
+		console.log('coding event', data);
+		socket.broadcast.to(data.room).emit('receive code', data);
+	});
+
+	//
+	//
 });

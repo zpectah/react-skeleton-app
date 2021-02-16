@@ -18,36 +18,71 @@ const Chat: React.FC<{} & ChatProps> = (props) => {
 	const socket = io('http://localhost:5000', { transports: ['websocket'] });
 	const { className, messages, chatUsers, rooms, roomId } = props;
 
+	// useEffect(() => {
+	// 	socket.on('chat message', (msg) => store.dispatch(addChatMessage(msg)));
+	// 	socket.on('user register', (attr) => store.dispatch(addChatUser(attr)));
+	//
+	// 	return () => {
+	// 		socket.off('chat message');
+	// 		socket.off('user register');
+	// 	};
+	// }, []);
+
 	useEffect(() => {
-		socket.on('chat message', (msg) => store.dispatch(addChatMessage(msg)));
-		socket.on('user register', (attr) => store.dispatch(addChatUser(attr)));
+		// socket.emit('room', { room: roomId });
 
 		return () => {
-			socket.off('chat message');
-			socket.off('user register');
+			// socket.emit('leave room', {
+			// 	room: roomId,
+			// });
 		};
+	}, []);
+
+	useEffect(() => {
+		socket.on('receive code', (payload) => {
+			console.log('receive code', payload);
+		});
 	}, []);
 
 	return (
 		<div className={['Chat', className].join(' ')}>
 			<ChatRoomList rooms={rooms} />
-			{roomId && (
-				<ChatRoom
-					rooms={rooms}
-					chatUsers={chatUsers}
-					messages={messages}
-					roomId={roomId}
-					onRegister={(attr) => {
-						console.log('onRegister', attr);
-					}}
-					onMessageSubmit={(attr) => {
-						console.log('onMessageSubmit', attr);
-					}}
-					onLeave={(attr) => {
-						console.log('onLeave', attr);
-					}}
-				/>
-			)}
+
+			{rooms.map((room, index) => {
+				if (roomId == room.id)
+					return (
+						<ChatRoom
+							key={index}
+							rooms={rooms}
+							chatUsers={chatUsers}
+							messages={messages}
+							roomId={roomId}
+							onRegister={(attr) => {
+								console.log('onRegister', attr);
+								socket.emit('register user', { ...attr, roomId: roomId });
+							}}
+							onMessageSubmit={(attr) => {
+								console.log('onMessageSubmit', attr);
+							}}
+							onConnect={(id) => {
+								socket.emit('room', { room: id });
+							}}
+							onLeave={(id) => {
+								console.log('onLeave', id);
+								socket.emit('leave room', {
+									room: id,
+								});
+							}}
+							onTyping={(attr) => {
+								console.log('onTyping', attr);
+								socket.emit('coding event', {
+									room: roomId,
+									newCode: attr,
+								});
+							}}
+						/>
+					);
+			})}
 		</div>
 	);
 };

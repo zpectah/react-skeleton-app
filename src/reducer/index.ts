@@ -27,6 +27,10 @@ export const defaultStoreState: DefaultStoreProps = {
 			id: 1,
 			name: 'chatRoom1',
 		},
+		{
+			id: 2,
+			name: 'chatRoom2',
+		},
 	],
 };
 

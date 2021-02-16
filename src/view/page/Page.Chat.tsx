@@ -35,7 +35,7 @@ class PageChat extends Component<{
 										messages={this.props.chatMessages}
 										chatUsers={this.props.chatUsers}
 										rooms={this.props.chatRooms}
-										roomId={this.props.match.params?.room}
+										roomId={this.props.match.params.room}
 									/>
 								</Section>
 							</AppLayout>
