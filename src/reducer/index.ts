@@ -76,9 +76,14 @@ function defaultReducer(state = defaultStoreState, action) {
 		case DEFAULT.REMOVE_CHAT_USER:
 			let tmp = [];
 
+			console.log('REMOVE_CHAT_USER');
+			console.log(action.payload);
+
 			state.chatUsers.map((item) => {
 				if (item.nickname !== action.payload) tmp.push(item);
 			});
+
+			console.log(tmp);
 
 			return Object.assign({}, state, {
 				chatUsers: tmp,

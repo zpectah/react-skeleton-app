@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
+import useUnload from '../../utils/useUnload';
+
 interface ChatClientProps {
 	className?: string | Array<string>;
 	onMessageSubmit: Function;
@@ -21,9 +23,13 @@ const ChatClient: React.FC<{} & ChatClientProps> = (props) => {
 	const { className, onMessageSubmit, onRegister, onLeave } = props;
 
 	useEffect(() => {
-		window.addEventListener('unload', onLeave(tmp)); // TODO: Need to test
 		return () => onLeave(tmp);
 	}, []);
+
+	useUnload((e) => {
+		e.preventDefault();
+		onLeave(tmp);
+	});
 
 	return (
 		<div className={['ChatClient', className].join(' ')}>

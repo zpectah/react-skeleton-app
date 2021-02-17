@@ -21,9 +21,10 @@ const Chat: React.FC<{} & ChatProps> = (props) => {
 	useEffect(() => {
 		socket.on('user register', (attr) => store.dispatch(addChatUser(attr)));
 		socket.on('chat message', (msg) => store.dispatch(addChatMessage(msg)));
-		socket.on('user left', (nickname) =>
-			store.dispatch(removeChatUser(nickname)),
-		);
+		socket.on('user left', (nickname) => {
+			console.log('user left trigger', nickname);
+			store.dispatch(removeChatUser(nickname));
+		});
 
 		return () => {
 			socket.off('user register');

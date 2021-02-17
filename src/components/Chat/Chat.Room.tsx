@@ -51,7 +51,7 @@ const ChatRoom: React.FC<{} & ChatRoomProps> = (props) => {
 			<hr />
 			<div>
 				{messages.map((msg, index) => {
-					if (msg.room == roomId)
+					if (msg.room === roomId)
 						return (
 							<div key={index}>
 								{msg.nickname}: {msg.message}
