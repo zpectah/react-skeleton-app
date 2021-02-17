@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 
 import store from '../../store';
@@ -17,25 +17,40 @@ interface ChatProps {
 const Chat: React.FC<{} & ChatProps> = (props) => {
 	const socket = io('http://localhost:5000', { transports: ['websocket'] });
 	const { className, messages, chatUsers, rooms, roomId } = props;
+	const [online, setInit] = useState<true | false>(false);
+
+	useLayoutEffect(() => {
+		socket
+			.on('connect', () => {
+				setInit(socket.connected);
+			})
+			.on('disconnect', () => {
+				setInit(false);
+			});
+
+		return () => setInit(false);
+	}, []);
 
 	useEffect(() => {
-		socket.on('user register', (attr) => store.dispatch(addChatUser(attr)));
-		socket.on('chat message', (msg) => store.dispatch(addChatMessage(msg)));
-		socket.on('user left', (nickname) => {
-			console.log('user left trigger', nickname);
-			store.dispatch(removeChatUser(nickname));
-		});
+		if (online) {
+			socket
+				.on('user register', (attr) => store.dispatch(addChatUser(attr)))
+				.on('chat message', (msg) => store.dispatch(addChatMessage(msg)))
+				.on('user left', (nickname) =>
+					store.dispatch(removeChatUser(nickname)),
+				);
 
-		return () => {
-			socket.off('user register');
-			socket.off('chat message');
-			socket.off('user left');
-		};
-	}, []);
+			return () => {
+				socket.off('user register').off('chat message').off('user left');
+			};
+		}
+	}, [online]);
 
 	return (
 		<div className={['Chat', className].join(' ')}>
 			<ChatRoomList rooms={rooms} chatUsers={chatUsers} roomId={roomId} />
+
+			<p>Room is {online ? 'online' : 'offline'}</p>
 
 			{rooms.map((room, index) => {
 				if (roomId == room.id)
@@ -46,16 +61,22 @@ const Chat: React.FC<{} & ChatProps> = (props) => {
 							chatUsers={chatUsers}
 							messages={messages}
 							roomId={roomId}
-							onRegister={(attr) =>
-								socket.emit('register user', { ...attr, room: roomId })
-							}
-							onMessageSubmit={(attr) =>
-								socket.emit('chat message', { ...attr, room: roomId })
-							}
-							onConnect={(id) => socket.emit('enter room', { room: id })}
-							onLeave={(attr) =>
-								socket.emit('leave room', { ...attr, room: roomId })
-							}
+							onRegister={(attr) => {
+								if (online)
+									socket.emit('register user', { ...attr, room: roomId });
+							}}
+							onMessageSubmit={(attr) => {
+								if (online)
+									socket.emit('chat message', { ...attr, room: roomId });
+							}}
+							onConnect={(id) => {
+								if (online) socket.emit('enter room', { room: id });
+							}}
+							onLeave={(attr) => {
+								if (online)
+									socket.emit('leave room', { ...attr, room: roomId });
+							}}
+							online={online}
 						/>
 					);
 			})}

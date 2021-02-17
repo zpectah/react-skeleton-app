@@ -7,6 +7,7 @@ interface ChatClientProps {
 	onMessageSubmit: Function;
 	onRegister: Function;
 	onLeave: Function;
+	online: true | false;
 }
 
 const tmp = {
@@ -14,13 +15,13 @@ const tmp = {
 };
 
 const ChatClient: React.FC<{} & ChatClientProps> = (props) => {
+	const { className, onMessageSubmit, onRegister, onLeave, online } = props;
 	const [clientState, setClientState] = useState<any>({
 		id: '',
 		nickname: '',
 	});
 	const [registered, setRegistered] = useState<true | false>(false);
 	const [message, setMessage] = useState<string>('');
-	const { className, onMessageSubmit, onRegister, onLeave } = props;
 
 	useEffect(() => {
 		return () => onLeave(tmp);
@@ -33,8 +34,6 @@ const ChatClient: React.FC<{} & ChatClientProps> = (props) => {
 
 	return (
 		<div className={['ChatClient', className].join(' ')}>
-			ChatClient
-			<br />
 			<div>
 				<input
 					type="text"
@@ -54,7 +53,7 @@ const ChatClient: React.FC<{} & ChatClientProps> = (props) => {
 						setRegistered(true);
 						onRegister(clientState);
 					}}
-					disabled={registered}
+					disabled={registered || !online}
 				>
 					Register user
 				</button>
@@ -79,6 +78,7 @@ const ChatClient: React.FC<{} & ChatClientProps> = (props) => {
 							});
 							setMessage('');
 						}}
+						disabled={!online}
 					>
 						Submit message
 					</button>
