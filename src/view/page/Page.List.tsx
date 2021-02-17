@@ -6,11 +6,16 @@ import * as routes from '../../App/routes.json';
 
 import * as AppContext from '../../App/App.context';
 
+import { fetchItems } from '../../actions';
+
 import AppLayout from '../../App/App.layout';
 import Section from '../../ui/Section';
 import List from '../../components/List';
 
-class PageList extends Component<{}> {
+class PageList extends Component<{ items; dispatch; match }, {}> {
+	componentDidMount() {
+		this.props.dispatch(fetchItems());
+	}
 
 	render() {
 		return (
@@ -18,14 +23,20 @@ class PageList extends Component<{}> {
 				{(context) => (
 					<Translation>
 						{(t) => (
-							<AppLayout metaTitle={t('page:list.meta.title')} route={routes.list}>
+							<AppLayout
+								metaTitle={t('page:list.meta.title')}
+								route={routes.list}
+							>
 								<Section>
-									<h1 className="title title--page">
-										{t('page:list.title')}
-									</h1>
+									<h1 className="title title--page">{t('page:list.title')}</h1>
 								</Section>
 								<Section>
-									<List />
+									<List
+										items={this.props.items}
+										detailId={this.props.match.params.id}
+										detailPath={routes.list.pathDetail}
+										listPath={routes.list.path}
+									/>
 								</Section>
 							</AppLayout>
 						)}
@@ -34,7 +45,6 @@ class PageList extends Component<{}> {
 			</AppContext.Consumer>
 		);
 	}
-
 }
 
 function mapStateToProps(state) {

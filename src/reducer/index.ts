@@ -13,6 +13,8 @@ export interface DefaultStoreProps {
 	chatMessages: Array<any>;
 	chatUsers: Array<any>;
 	chatRooms: Array<any>;
+	fetching: true | false;
+	fetchError: any;
 }
 export const defaultStoreState: DefaultStoreProps = {
 	items: [],
@@ -32,6 +34,8 @@ export const defaultStoreState: DefaultStoreProps = {
 			name: 'chatRoom2',
 		},
 	],
+	fetching: false,
+	fetchError: null,
 };
 
 function defaultReducer(state = defaultStoreState, action) {
@@ -76,18 +80,30 @@ function defaultReducer(state = defaultStoreState, action) {
 		case DEFAULT.REMOVE_CHAT_USER:
 			let tmp = [];
 
-			console.log('REMOVE_CHAT_USER');
-			console.log(action.payload);
-
 			state.chatUsers.map((item) => {
 				if (item.nickname !== action.payload) tmp.push(item);
 			});
 
-			console.log(tmp);
-
 			return Object.assign({}, state, {
 				chatUsers: tmp,
 			});
+
+		case DEFAULT.FETCH_START:
+			return { ...state, fetching: true };
+
+		case DEFAULT.FETCH_DONE:
+			return {
+				fetching: false,
+				items: action.payload,
+				fetchError: null,
+			};
+
+		case DEFAULT.FETCH_ERROR:
+			return {
+				...state,
+				fetching: false,
+				fetchError: action.payload,
+			};
 	}
 
 	return state;

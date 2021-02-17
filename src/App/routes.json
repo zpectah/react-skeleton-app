@@ -11,6 +11,7 @@
 	"list": {
 		"name": "list",
 		"path": "/list",
+		"pathDetail": "/list/detail",
 		"auth": 1
 	},
 	"form": {

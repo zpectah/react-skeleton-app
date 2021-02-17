@@ -10,12 +10,15 @@ import AppLayout from '../../App/App.layout';
 import Section from '../../ui/Section';
 import Chat from '../../components/Chat';
 
-class PageChat extends Component<{
-	chatMessages;
-	chatUsers;
-	chatRooms;
-	match;
-}> {
+class PageChat extends Component<
+	{
+		chatMessages;
+		chatUsers;
+		chatRooms;
+		match;
+	},
+	{}
+> {
 	render() {
 		return (
 			<AppContext.Consumer>
