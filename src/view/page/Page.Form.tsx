@@ -10,19 +10,23 @@ import AppLayout from '../../App/App.layout';
 import Section from '../../ui/Section';
 import FormDefault from '../../components/FormDefault';
 
-class PageForm extends Component<{}> {
+interface PageFormProps {}
 
+interface PageFormStateProps {}
+
+class PageForm extends Component<PageFormProps, PageFormStateProps> {
 	render() {
 		return (
 			<AppContext.Consumer>
 				{(context) => (
 					<Translation>
 						{(t) => (
-							<AppLayout metaTitle={t('page:form.meta.title')} route={routes.form}>
+							<AppLayout
+								metaTitle={t('page:form.meta.title')}
+								route={routes.form}
+							>
 								<Section>
-									<h1 className="title title--page">
-										{t('page:form.title')}
-									</h1>
+									<h1 className="title title--page">{t('page:form.title')}</h1>
 								</Section>
 								<Section>
 									<FormDefault />
@@ -34,7 +38,6 @@ class PageForm extends Component<{}> {
 			</AppContext.Consumer>
 		);
 	}
-
 }
 
 function mapStateToProps(state) {

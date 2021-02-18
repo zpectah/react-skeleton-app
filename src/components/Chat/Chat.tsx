@@ -52,11 +52,7 @@ const Chat: React.FC<{} & ChatProps> = (props) => {
 
 			<p>Server is {online ? 'online' : 'offline'}</p>
 
-			{JSON.stringify(rooms)}
-
 			{rooms.map((room, index) => {
-				console.log(roomId);
-				console.log(room.id);
 				if (roomId == room.id)
 					return (
 						<ChatRoom

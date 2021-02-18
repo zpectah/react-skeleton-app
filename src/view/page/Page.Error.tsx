@@ -10,8 +10,11 @@ import * as AppContext from '../../App/App.context';
 import AppLayout from '../../App/App.layout';
 import Section from '../../ui/Section';
 
-class PageError extends Component<{}> {
+interface PageErrorProps {}
 
+interface PageErrorStateProps {}
+
+class PageError extends Component<PageErrorProps, PageErrorStateProps> {
 	render() {
 		return (
 			<AppContext.Consumer>
@@ -27,17 +30,11 @@ class PageError extends Component<{}> {
 								className="is-centered"
 							>
 								<Section>
-									<h1 className="title title--page">
-										{t('page:error.title')}
-									</h1>
+									<h1 className="title title--page">{t('page:error.title')}</h1>
 								</Section>
 								<Section>
-									<p>
-										{t('page:error.content')}
-									</p>
-									<Link to={routes.dashboard.path}>
-										Return to dashboard
-									</Link>
+									<p>{t('page:error.content')}</p>
+									<Link to={routes.dashboard.path}>Return to dashboard</Link>
 								</Section>
 							</AppLayout>
 						)}
@@ -46,7 +43,6 @@ class PageError extends Component<{}> {
 			</AppContext.Consumer>
 		);
 	}
-
 }
 
 function mapStateToProps(state) {

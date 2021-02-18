@@ -12,7 +12,19 @@ import AppLayout from '../../App/App.layout';
 import Section from '../../ui/Section';
 import List from '../../components/List';
 
-class PageList extends Component<{ items; dispatch; match }, {}> {
+interface PageListProps {
+	items: Array<any>;
+	dispatch;
+	match;
+}
+
+interface PageListStateProps {}
+
+class PageList extends Component<PageListProps, PageListStateProps> {
+	static defaultProps = {
+		items: [],
+	};
+
 	componentDidMount() {
 		this.props.dispatch(fetchItems());
 	}

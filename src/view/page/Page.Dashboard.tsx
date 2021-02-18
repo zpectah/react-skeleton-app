@@ -10,8 +10,14 @@ import AppLayout from '../../App/App.layout';
 import Section from '../../ui/Section';
 import Dashboard from '../../components/Dashboard';
 
-class PageDashboard extends Component<{}> {
+interface PageDashboardProps {}
 
+interface PageDashboardStateProps {}
+
+class PageDashboard extends Component<
+	PageDashboardProps,
+	PageDashboardStateProps
+> {
 	render() {
 		return (
 			<AppContext.Consumer>
@@ -34,7 +40,6 @@ class PageDashboard extends Component<{}> {
 			</AppContext.Consumer>
 		);
 	}
-
 }
 
 function mapStateToProps(state) {

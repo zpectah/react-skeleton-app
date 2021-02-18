@@ -10,15 +10,16 @@ import AppLayout from '../../App/App.layout';
 import Section from '../../ui/Section';
 import Chat from '../../components/Chat';
 
-class PageChat extends Component<
-	{
-		chatMessages;
-		chatUsers;
-		chatRooms;
-		match;
-	},
-	{}
-> {
+interface PageChatProps {
+	chatMessages: Array<any>;
+	chatUsers: Array<any>;
+	chatRooms: Array<any>;
+	match;
+}
+
+interface PageChatStateProps {}
+
+class PageChat extends Component<PageChatProps, PageChatStateProps> {
 	static defaultProps = {
 		chatMessages: [],
 		chatUsers: [],
