@@ -89,21 +89,22 @@ function defaultReducer(state = defaultStoreState, action) {
 			});
 
 		case DEFAULT.FETCH_START:
-			return { ...state, fetching: true };
+			return Object.assign({}, state, {
+				fetching: true,
+			});
 
 		case DEFAULT.FETCH_DONE:
-			return {
+			return Object.assign({}, state, {
 				fetching: false,
 				items: action.payload,
 				fetchError: null,
-			};
+			});
 
 		case DEFAULT.FETCH_ERROR:
-			return {
-				...state,
+			return Object.assign({}, state, {
 				fetching: false,
 				fetchError: action.payload,
-			};
+			});
 	}
 
 	return state;

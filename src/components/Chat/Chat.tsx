@@ -20,28 +20,28 @@ const Chat: React.FC<{} & ChatProps> = (props) => {
 	const [online, setInit] = useState<true | false>(false);
 
 	useLayoutEffect(() => {
-		socket
-			.on('connect', () => {
-				setInit(socket.connected);
-			})
-			.on('disconnect', () => {
-				setInit(false);
-			});
+		socket.on('connect', () => {
+			setInit(socket.connected);
+		});
+		socket.on('disconnect', () => {
+			setInit(false);
+		});
 
 		return () => setInit(false);
-	}, []);
+	}, [rooms]);
 
 	useEffect(() => {
 		if (online) {
-			socket
-				.on('user register', (attr) => store.dispatch(addChatUser(attr)))
-				.on('chat message', (msg) => store.dispatch(addChatMessage(msg)))
-				.on('user left', (nickname) =>
-					store.dispatch(removeChatUser(nickname)),
-				);
+			socket.on('user register', (attr) => store.dispatch(addChatUser(attr)));
+			socket.on('chat message', (msg) => store.dispatch(addChatMessage(msg)));
+			socket.on('user left', (nickname) =>
+				store.dispatch(removeChatUser(nickname)),
+			);
 
 			return () => {
-				socket.off('user register').off('chat message').off('user left');
+				socket.off('user register');
+				socket.off('chat message');
+				socket.off('user left');
 			};
 		}
 	}, [online]);
@@ -50,9 +50,13 @@ const Chat: React.FC<{} & ChatProps> = (props) => {
 		<div className={['Chat', className].join(' ')}>
 			<ChatRoomList rooms={rooms} chatUsers={chatUsers} roomId={roomId} />
 
-			<p>Room is {online ? 'online' : 'offline'}</p>
+			<p>Server is {online ? 'online' : 'offline'}</p>
+
+			{JSON.stringify(rooms)}
 
 			{rooms.map((room, index) => {
+				console.log(roomId);
+				console.log(room.id);
 				if (roomId == room.id)
 					return (
 						<ChatRoom

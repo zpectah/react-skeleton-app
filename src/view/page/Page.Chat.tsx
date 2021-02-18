@@ -19,6 +19,12 @@ class PageChat extends Component<
 	},
 	{}
 > {
+	static defaultProps = {
+		chatMessages: [],
+		chatUsers: [],
+		chatRooms: [],
+	};
+
 	render() {
 		return (
 			<AppContext.Consumer>
@@ -52,7 +58,11 @@ class PageChat extends Component<
 	}
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: {
+	chatMessages: Array<any>;
+	chatUsers: Array<any>;
+	chatRooms: Array<any>;
+}) {
 	return {
 		chatMessages: state.chatMessages,
 		chatUsers: state.chatUsers,
