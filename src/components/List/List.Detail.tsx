@@ -1,6 +1,7 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
+import { Card, Button } from 'antd';
 
 interface ListDetailProps {
 	className?: string | Array<string>;
@@ -10,6 +11,7 @@ interface ListDetailProps {
 }
 
 const ListDetail: React.FC<{} & ListDetailProps> = (props) => {
+	const his = useHistory();
 	const { items, detailId, listPath } = props;
 	const [active, setActive] = useState<true | false>(false);
 	const [detail, setDetail] = useState(null);
@@ -30,14 +32,21 @@ const ListDetail: React.FC<{} & ListDetailProps> = (props) => {
 	return (
 		<>
 			{active && detail && (
-				<div className={['ListDetail', props.className].join(' ')}>
-					<Link to={listPath}>Close detail</Link>
+				<Card className={['ListDetail', props.className].join(' ')}>
+					<Button
+						onClick={(e) => {
+							e.preventDefault();
+							his.push(listPath);
+						}}
+					>
+						Close detail
+					</Button>
 					<br />
 					<div>
 						<h2>{detail.title}</h2>
 						<p>{detail.body}</p>
 					</div>
-				</div>
+				</Card>
 			)}
 		</>
 	);

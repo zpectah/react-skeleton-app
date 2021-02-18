@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Translation } from 'react-i18next';
 import { connect } from 'react-redux';
+import { Typography, PageHeader } from 'antd';
 
 import * as routes from '../../App/routes.json';
 
@@ -26,9 +27,13 @@ class PageDashboard extends Component<
 						{(t) => (
 							<AppLayout route={routes.dashboard}>
 								<Section>
-									<h1 className="title title--page">
-										{t('page:dashboard.title')}
-									</h1>
+									<PageHeader
+										title={
+											<Typography.Title className="title title--page" level={1}>
+												{t('page:dashboard.title')}{' '}
+											</Typography.Title>
+										}
+									/>
 								</Section>
 								<Section>
 									<Dashboard />

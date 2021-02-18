@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Translation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Typography } from 'antd';
 
 import * as routes from '../../App/routes.json';
 
@@ -30,7 +31,9 @@ class PageError extends Component<PageErrorProps, PageErrorStateProps> {
 								className="is-centered"
 							>
 								<Section>
-									<h1 className="title title--page">{t('page:error.title')}</h1>
+									<Typography.Title className="title title--page" level={1}>
+										{t('page:error.title')}
+									</Typography.Title>
 								</Section>
 								<Section>
 									<p>{t('page:error.content')}</p>

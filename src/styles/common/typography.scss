@@ -1,0 +1,9 @@
+.title{
+	$self: &;
+
+	.Section & {
+		margin: 0;
+		padding: 0;
+	}
+
+}

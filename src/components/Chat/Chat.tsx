@@ -5,6 +5,7 @@ import store from '../../store';
 import { addChatMessage, addChatUser, removeChatUser } from '../../actions';
 import ChatRoomList from './Chat.RoomList';
 import ChatRoom from './Chat.Room';
+import { Card, Tag } from 'antd';
 
 interface ChatProps {
 	className?: string | Array<string>;
@@ -48,9 +49,16 @@ const Chat: React.FC<{} & ChatProps> = (props) => {
 
 	return (
 		<div className={['Chat', className].join(' ')}>
-			<ChatRoomList rooms={rooms} chatUsers={chatUsers} roomId={roomId} />
-
-			<p>Server is {online ? 'online' : 'offline'}</p>
+			<Card>
+				{online ? (
+					<Tag color="success">Server is online</Tag>
+				) : (
+					<Tag color="error">Server is offline</Tag>
+				)}
+				<br />
+				<br />
+				<ChatRoomList rooms={rooms} chatUsers={chatUsers} roomId={roomId} />
+			</Card>
 
 			{rooms.map((room, index) => {
 				if (roomId == room.id)

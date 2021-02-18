@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Card, Typography, Tag } from 'antd';
 
 import ChatClient from './Chat.Client';
 
@@ -42,9 +43,17 @@ const ChatRoom: React.FC<{} & ChatRoomProps> = (props) => {
 	}, [chatUsers]);
 
 	return (
-		<div className={['ChatRoom', className].join(' ')}>
-			ChatRoom #{roomId} : {roomUsers.length}
-			<br />
+		<Card
+			className={['ChatRoom', className].join(' ')}
+			title={
+				<Typography.Title level={3}>
+					ChatRoom #{roomId}{' '}
+					<Tag color={roomUsers.length > 0 ? 'success' : 'error'}>
+						{roomUsers.length}
+					</Tag>
+				</Typography.Title>
+			}
+		>
 			<ChatClient
 				onRegister={(attr) => onRegister(attr)}
 				onMessageSubmit={(attr) => onMessageSubmit(attr)}
@@ -62,7 +71,7 @@ const ChatRoom: React.FC<{} & ChatRoomProps> = (props) => {
 						);
 				})}
 			</div>
-		</div>
+		</Card>
 	);
 };
 

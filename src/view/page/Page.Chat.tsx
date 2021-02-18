@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Translation } from 'react-i18next';
 import { connect } from 'react-redux';
+import { Typography, PageHeader, Tag } from 'antd';
 
 import * as routes from '../../App/routes.json';
 
@@ -37,10 +38,22 @@ class PageChat extends Component<PageChatProps, PageChatStateProps> {
 								route={routes.chat}
 							>
 								<Section>
-									<h1 className="title title--page">
-										{t('page:chat.title')}{' '}
-										<small>({this.props.chatUsers.length} users)</small>
-									</h1>
+									<PageHeader
+										title={
+											<Typography.Title className="title title--page" level={1}>
+												{t('page:chat.title')}{' '}
+											</Typography.Title>
+										}
+										tags={
+											<Tag
+												color={
+													this.props.chatUsers.length > 0 ? 'success' : 'error'
+												}
+											>
+												{this.props.chatUsers.length} users
+											</Tag>
+										}
+									/>
 								</Section>
 								<Section>
 									<Chat

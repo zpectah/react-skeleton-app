@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Translation } from 'react-i18next';
 import { connect } from 'react-redux';
+import { Typography, PageHeader } from 'antd';
 
 import * as routes from '../../App/routes.json';
 
@@ -40,7 +41,13 @@ class PageList extends Component<PageListProps, PageListStateProps> {
 								route={routes.list}
 							>
 								<Section>
-									<h1 className="title title--page">{t('page:list.title')}</h1>
+									<PageHeader
+										title={
+											<Typography.Title className="title title--page" level={1}>
+												{t('page:list.title')}
+											</Typography.Title>
+										}
+									/>
 								</Section>
 								<Section>
 									<List

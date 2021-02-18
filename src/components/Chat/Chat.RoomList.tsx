@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import { Radio, Tag } from 'antd';
 
 import * as routes from '../../App/routes.json';
 
@@ -11,27 +13,37 @@ interface ChatRoomListProps {
 }
 
 const ChatRoomList: React.FC<{} & ChatRoomListProps> = (props) => {
+	const his = useHistory();
 	const { className, rooms, chatUsers, roomId } = props;
+	const [tmpRoom, setTmpRoom] = useState(roomId);
 
 	return (
 		<div className={['ChatRoomList', className].join(' ')}>
-			{rooms.map((room, index) => {
-				let users = [];
-				chatUsers.map((user) => {
-					if (user.room == room.id) users.push(user);
-				});
-
-				return (
-					<NavLink
-						to={`${routes.chat.pathRoom}/${room.id}`}
-						key={index}
-						activeClassName="is-active"
-						exact
-					>
-						{room.name} <small>({users.length})</small>
-					</NavLink>
-				);
-			})}
+			<Radio.Group
+				onChange={(e) => {
+					setTmpRoom(e.target.value);
+					his.push(`${routes.chat.pathRoom}/${e.target.value}`);
+				}}
+				value={roomId.toString()}
+				defaultValue={roomId.toString()}
+				style={{ marginBottom: 8 }}
+			>
+				{rooms.map((room, index) => {
+					let users = [];
+					chatUsers.map((user) => {
+						if (user.room == room.id) users.push(user);
+					});
+					return (
+						<Radio.Button
+							value={room.id.toString()}
+							key={index}
+							checked={room.id == tmpRoom}
+						>
+							{room.name} <Tag>{users.length} users</Tag>
+						</Radio.Button>
+					);
+				})}
+			</Radio.Group>
 		</div>
 	);
 };
