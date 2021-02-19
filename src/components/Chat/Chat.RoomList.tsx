@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
-import { Radio, Tag } from 'antd';
+import { Radio, Badge } from 'antd';
 
 import * as routes from '../../App/routes.json';
 
@@ -24,8 +24,8 @@ const ChatRoomList: React.FC<{} & ChatRoomListProps> = (props) => {
 					setTmpRoom(e.target.value);
 					his.push(`${routes.chat.pathRoom}/${e.target.value}`);
 				}}
-				value={roomId.toString()}
-				defaultValue={roomId.toString()}
+				value={roomId?.toString()}
+				defaultValue={roomId?.toString()}
 				style={{ marginBottom: 8 }}
 			>
 				{rooms.map((room, index) => {
@@ -34,13 +34,15 @@ const ChatRoomList: React.FC<{} & ChatRoomListProps> = (props) => {
 						if (user.room == room.id) users.push(user);
 					});
 					return (
-						<Radio.Button
-							value={room.id.toString()}
-							key={index}
-							checked={room.id == tmpRoom}
-						>
-							{room.name} <Tag>{users.length} users</Tag>
-						</Radio.Button>
+						<Badge count={users.length}>
+							<Radio.Button
+								value={room.id.toString()}
+								key={index}
+								checked={room.id == tmpRoom}
+							>
+								{room.name}
+							</Radio.Button>
+						</Badge>
 					);
 				})}
 			</Radio.Group>

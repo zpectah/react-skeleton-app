@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
 import { array } from 'javascript-es6-helpers';
-import { Input, Table, Space, Button, Row, Col } from 'antd';
+import { Input, Table, Space, Button, Row, Col, Drawer } from 'antd';
 
 import addListKeys from '../../utils/addListKeys';
 import ListDetail from './List.Detail';
@@ -56,7 +56,7 @@ const List: React.FC<{} & ListProps> = (props) => {
 
 	return (
 		<div style={{ display: 'flex', flexDirection: 'row' }}>
-			<div style={{ width: detailId ? '50%' : '100%' }}>
+			<div style={{ maxWidth: '100%' }}>
 				<div className={['List', className].join(' ')}>
 					<div>
 						<Search
@@ -131,13 +131,16 @@ const List: React.FC<{} & ListProps> = (props) => {
 					</div>
 				</div>
 			</div>
-			{detailId && (
-				<div style={{ width: '50%', position: 'relative' }}>
-					<div style={{ position: 'sticky', top: 0 }}>
-						<ListDetail items={items} detailId={detailId} listPath={listPath} />
-					</div>
+			<Drawer
+				width={720}
+				placement="right"
+				onClose={() => his.push(listPath)}
+				visible={!!detailId}
+			>
+				<div style={{ position: 'sticky', top: 0 }}>
+					<ListDetail items={items} detailId={detailId} listPath={listPath} />
 				</div>
-			)}
+			</Drawer>
 		</div>
 	);
 };

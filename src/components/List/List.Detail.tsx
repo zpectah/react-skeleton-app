@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
-import { Card, Button } from 'antd';
+import { Button } from 'antd';
 
 interface ListDetailProps {
 	className?: string | Array<string>;
@@ -32,7 +32,12 @@ const ListDetail: React.FC<{} & ListDetailProps> = (props) => {
 	return (
 		<>
 			{active && detail && (
-				<Card className={['ListDetail', props.className].join(' ')}>
+				<div className={['ListDetail', props.className].join(' ')}>
+					<div>
+						<h2>{detail.title}</h2>
+						<p>{detail.body}</p>
+					</div>
+					<br />
 					<Button
 						onClick={(e) => {
 							e.preventDefault();
@@ -41,12 +46,7 @@ const ListDetail: React.FC<{} & ListDetailProps> = (props) => {
 					>
 						Close detail
 					</Button>
-					<br />
-					<div>
-						<h2>{detail.title}</h2>
-						<p>{detail.body}</p>
-					</div>
-				</Card>
+				</div>
 			)}
 		</>
 	);
