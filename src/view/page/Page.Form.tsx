@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Translation } from 'react-i18next';
 import { connect } from 'react-redux';
-import { Typography, PageHeader } from 'antd';
+import { Typography, PageHeader, Card } from 'antd';
 
 import * as routes from '../../App/routes.json';
 
@@ -36,7 +36,9 @@ class PageForm extends Component<PageFormProps, PageFormStateProps> {
 									/>
 								</Section>
 								<Section>
-									<FormDefault />
+									<Card>
+										<FormDefault />
+									</Card>
 								</Section>
 							</AppLayout>
 						)}

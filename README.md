@@ -2,9 +2,7 @@
 
 ## Description
 React skeleton app using Redux, i18n translations and basic predefined ui components.
-
-## Warning
-- This repository is still in development!
+All components and features are in raw state for easy customize.
 
 ## Dependencies
 - Typescript
@@ -13,6 +11,7 @@ React skeleton app using Redux, i18n translations and basic predefined ui compon
 - i18n
 - socket.io
 - SCSS Styles
+- AntDesign components
 
 ## Requirements
 - Node.js (NPM & Yarn) + terminal/console
@@ -23,3 +22,18 @@ React skeleton app using Redux, i18n translations and basic predefined ui compon
 - `yarn test`
 - `yarn build`
 - `yarn server`
+
+## Features:
+- Page Dashboard
+	- Dashboard component
+
+- PageError
+
+- PageList
+	- List component
+
+- PageForm
+	- Form component
+
+- PageChat
+	- Chat component
