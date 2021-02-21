@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Typography, Tag } from 'antd';
+import { Card, Typography, Tag, Divider, Input } from 'antd';
 
 import ChatClient from './Chat.Client';
 
@@ -29,6 +29,7 @@ const ChatRoom: React.FC<{} & ChatRoomProps> = (props) => {
 		online,
 	} = props;
 	const [roomUsers, setRoomUsers] = useState([]);
+	const { TextArea } = Input;
 
 	useEffect(() => onConnect(roomId), []);
 
@@ -42,36 +43,40 @@ const ChatRoom: React.FC<{} & ChatRoomProps> = (props) => {
 		}
 	}, [chatUsers]);
 
+	const renderMessages = () => {
+		let string = '';
+
+		messages.map((msg) => {
+			let firstMsg = string.length > 0 ? string + '\n' : '';
+			if (msg.room === roomId)
+				return (string = firstMsg + `${msg.nickname}: ${msg.message}`);
+		});
+
+		return string;
+	};
+
 	return (
-		<Card
-			className={['ChatRoom', className].join(' ')}
-			title={
-				<Typography.Title level={3}>
-					ChatRoom #{roomId}{' '}
-					<Tag color={roomUsers.length > 0 ? 'success' : 'error'}>
-						{roomUsers.length}
-					</Tag>
-				</Typography.Title>
-			}
-		>
-			<ChatClient
-				onRegister={(attr) => onRegister(attr)}
-				onMessageSubmit={(attr) => onMessageSubmit(attr)}
-				onLeave={(attr) => onLeave(attr)}
-				online={online}
-			/>
-			<hr />
-			<div>
-				{messages.map((msg, index) => {
-					if (msg.room === roomId)
-						return (
-							<div key={index}>
-								{msg.nickname}: {msg.message}
-							</div>
-						);
-				})}
-			</div>
-		</Card>
+		<>
+			<Card
+				className={['ChatRoom', className].join(' ')}
+				title={
+					<Typography.Title level={3}>
+						ChatRoom #{roomId}{' '}
+						<Tag color={roomUsers.length > 0 ? 'success' : 'error'}>
+							{roomUsers.length}
+						</Tag>
+					</Typography.Title>
+				}
+			>
+				<TextArea value={renderMessages()} rows={10} readOnly />
+				<ChatClient
+					onRegister={(attr) => onRegister(attr)}
+					onMessageSubmit={(attr) => onMessageSubmit(attr)}
+					onLeave={(attr) => onLeave(attr)}
+					online={online}
+				/>
+			</Card>
+		</>
 	);
 };
 

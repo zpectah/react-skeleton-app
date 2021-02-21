@@ -34,10 +34,9 @@ const ChatRoomList: React.FC<{} & ChatRoomListProps> = (props) => {
 						if (user.room == room.id) users.push(user);
 					});
 					return (
-						<Badge count={users.length}>
+						<Badge count={users.length} key={index}>
 							<Radio.Button
 								value={room.id.toString()}
-								key={index}
 								checked={room.id == tmpRoom}
 							>
 								{room.name}

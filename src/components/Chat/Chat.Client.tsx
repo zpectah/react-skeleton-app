@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Row, Col, Input, Button } from 'antd';
 
 import useUnload from '../../utils/useUnload';
 
@@ -22,6 +23,7 @@ const ChatClient: React.FC<{} & ChatClientProps> = (props) => {
 	});
 	const [registered, setRegistered] = useState<true | false>(false);
 	const [message, setMessage] = useState<string>('');
+	const { TextArea } = Input;
 
 	useEffect(() => {
 		return () => onLeave(tmp);
@@ -34,54 +36,63 @@ const ChatClient: React.FC<{} & ChatClientProps> = (props) => {
 
 	return (
 		<div className={['ChatClient', className].join(' ')}>
-			<div>
-				<input
-					type="text"
-					value={clientState.nickname}
-					onChange={(e) => {
-						setClientState({ ...clientState, nickname: e.target.value });
-						tmp.nickname = e.target.value;
-					}}
-					placeholder="Your nickname"
-					disabled={registered}
-					readOnly={registered}
-				/>
-				<button
-					type="button"
-					onClick={(e) => {
-						e.preventDefault();
-						setRegistered(true);
-						onRegister(clientState);
-					}}
-					disabled={registered || !online}
-				>
-					Register user
-				</button>
-			</div>
+			<Row>
+				<Col>
+					<Input
+						type="text"
+						value={clientState.nickname}
+						onChange={(e) => {
+							setClientState({ ...clientState, nickname: e.target.value });
+							tmp.nickname = e.target.value;
+						}}
+						placeholder="Your nickname"
+						disabled={registered}
+						readOnly={registered}
+					/>
+				</Col>
+				<Col>
+					<Button
+						type="primary"
+						onClick={(e) => {
+							e.preventDefault();
+							setRegistered(true);
+							onRegister(clientState);
+						}}
+						disabled={registered || !online}
+					>
+						Register user
+					</Button>
+				</Col>
+			</Row>
 			<br />
 			{registered && (
 				<div>
-					<textarea
-						value={message}
-						onChange={(e) => {
-							setMessage(e.target.value);
-						}}
-						placeholder="Your message"
-					></textarea>
-					<button
-						type="button"
-						onClick={(e) => {
-							e.preventDefault();
-							onMessageSubmit({
-								nickname: clientState.nickname,
-								message: message,
-							});
-							setMessage('');
-						}}
-						disabled={!online}
-					>
-						Submit message
-					</button>
+					<div>
+						<TextArea
+							value={message}
+							onChange={(e) => {
+								setMessage(e.target.value);
+							}}
+							placeholder="Your message"
+							rows={4}
+						></TextArea>
+					</div>
+					<div>
+						<Button
+							type="primary"
+							onClick={(e) => {
+								e.preventDefault();
+								onMessageSubmit({
+									nickname: clientState.nickname,
+									message: message,
+								});
+								setMessage('');
+							}}
+							disabled={!online || message.length < 3}
+						>
+							Submit message
+						</Button>
+					</div>
 				</div>
 			)}
 		</div>

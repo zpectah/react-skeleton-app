@@ -18,13 +18,19 @@ interface PageChatProps {
 	match;
 }
 
-interface PageChatStateProps {}
+interface PageChatStateProps {
+	online: true | false;
+}
 
 class PageChat extends Component<PageChatProps, PageChatStateProps> {
 	static defaultProps = {
 		chatMessages: [],
 		chatUsers: [],
 		chatRooms: [],
+	};
+
+	state: PageChatStateProps = {
+		online: false,
 	};
 
 	render() {
@@ -45,13 +51,24 @@ class PageChat extends Component<PageChatProps, PageChatStateProps> {
 											</Typography.Title>
 										}
 										tags={
-											<Tag
-												color={
-													this.props.chatUsers.length > 0 ? 'success' : 'error'
-												}
-											>
-												{this.props.chatUsers.length} users
-											</Tag>
+											<>
+												<Tag
+													color={this.state.online ? 'success' : 'error'}
+													key={1}
+												>
+													Server {this.state.online ? 'online' : 'offline'}
+												</Tag>
+												<Tag
+													color={
+														this.props.chatUsers.length > 0
+															? 'success'
+															: 'error'
+													}
+													key={2}
+												>
+													{this.props.chatUsers.length} users
+												</Tag>
+											</>
 										}
 									/>
 								</Section>
@@ -61,6 +78,9 @@ class PageChat extends Component<PageChatProps, PageChatStateProps> {
 										chatUsers={this.props.chatUsers}
 										rooms={this.props.chatRooms}
 										roomId={this.props.match.params.room}
+										onOnline={(online) => {
+											this.setState({ ...this.state, online: online });
+										}}
 									/>
 								</Section>
 							</AppLayout>

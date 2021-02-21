@@ -5,7 +5,7 @@ import store from '../../store';
 import { addChatMessage, addChatUser, removeChatUser } from '../../actions';
 import ChatRoomList from './Chat.RoomList';
 import ChatRoom from './Chat.Room';
-import { Card, Tag } from 'antd';
+import { Card, Divider } from 'antd';
 
 interface ChatProps {
 	className?: string | Array<string>;
@@ -13,22 +13,23 @@ interface ChatProps {
 	chatUsers: Array<any>;
 	rooms: Array<any>;
 	roomId: number;
+	onOnline: Function;
 }
 
 const Chat: React.FC<{} & ChatProps> = (props) => {
 	const socket = io('http://localhost:5000', { transports: ['websocket'] });
-	const { className, messages, chatUsers, rooms, roomId } = props;
-	const [online, setInit] = useState<true | false>(false);
+	const { className, messages, chatUsers, rooms, roomId, onOnline } = props;
+	const [online, setOnline] = useState<true | false>(false);
 
 	useLayoutEffect(() => {
 		socket.on('connect', () => {
-			setInit(socket.connected);
+			setOnline(socket.connected);
 		});
 		socket.on('disconnect', () => {
-			setInit(false);
+			setOnline(false);
 		});
 
-		return () => setInit(false);
+		return () => setOnline(false);
 	}, [rooms]);
 
 	useEffect(() => {
@@ -47,19 +48,20 @@ const Chat: React.FC<{} & ChatProps> = (props) => {
 		}
 	}, [online]);
 
+	useEffect(() => {
+		if (online) {
+			onOnline(true);
+		} else {
+			onOnline(false);
+		}
+	}, [online]);
+
 	return (
 		<div className={['Chat', className].join(' ')}>
 			<Card>
-				{online ? (
-					<Tag color="success">Server is online</Tag>
-				) : (
-					<Tag color="error">Server is offline</Tag>
-				)}
-				<br />
-				<br />
 				<ChatRoomList rooms={rooms} chatUsers={chatUsers} roomId={roomId} />
 			</Card>
-
+			<Divider />
 			{rooms.map((room, index) => {
 				if (roomId == room.id)
 					return (
